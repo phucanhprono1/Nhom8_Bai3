@@ -1,0 +1,45 @@
+<definitions xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+             xmlns:wsp="http://www.w3.org/ns/ws-policy"
+             xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+             xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:tns="http://example.com/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns="http://schemas.xmlsoap.org/wsdl/"
+             targetNamespace="http://example.com/"
+             name="InventoryServiceImplService">
+    <types>
+        <xsd:schema>
+            <xsd:import namespace="http://example.com/" schemaLocation="http://localhost:9999/checkInventory?xsd=1"/>
+        </xsd:schema>
+    </types>
+    <message name="checkInventory">
+        <part name="parameters" element="tns:checkInventory"/>
+    </message>
+    <message name="checkInventoryResponse">
+        <part name="parameters" element="tns:checkInventoryResponse"/>
+    </message>
+    <portType name="InventoryService">
+        <operation name="checkInventory">
+            <input wsam:Action="http://example.com/InventoryService/checkInventoryRequest" message="tns:checkInventory"/>
+            <output wsam:Action="http://example.com/InventoryService/checkInventoryResponse" message="tns:checkInventoryResponse"/>
+        </operation>
+    </portType>
+    <binding name="InventoryServiceImplPortBinding" type="tns:InventoryService">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <operation name="checkInventory">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+        </operation>
+    </binding>
+    <service name="InventoryServiceImplService">
+        <port name="InventoryServiceImplPort" binding="tns:InventoryServiceImplPortBinding">
+            <soap:address location="http://localhost:9999/checkInventory"/>
+        </port>
+    </service>
+</definitions>
